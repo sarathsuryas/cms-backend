@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import { databaseConfig } from 'src/config/database.config';
 import { DEVELOPMENT, PRODUCTION, SEQUELIZE, TEST } from 'src/constants';
+import { User } from 'src/modules/users/user.entity';
 
 export const databaseProviders = [{
     provide: SEQUELIZE,
@@ -21,9 +22,9 @@ export const databaseProviders = [{
         }
          
         const sequelize = new Sequelize(config);
-        sequelize.authenticate().then(()=>console.log("Psql Connected"))
+        sequelize.authenticate().then(()=>console.log("Postgres Connected"))
         .catch(()=>console.log('check db connection'))
-        sequelize.addModels(['models goes here']);
+        sequelize.addModels([User]);
         await sequelize.sync();
         return sequelize;
     },

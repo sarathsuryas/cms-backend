@@ -6,9 +6,9 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UsersService, private readonly jwtService: JwtService) { }
-  async validateUser(username: string, pass: string) {
+  async validateUser(email: string, pass: string) {
     // find if user exist with this email
-    const user = await this.userService.findOneByEmail(username);
+    const user = await this.userService.findOneByEmail(email);
     if (!user) {
         return null;
     }

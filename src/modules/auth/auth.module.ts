@@ -6,14 +6,15 @@ import { LocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './jwt.strategy';
+import { JwtConfig } from 'src/config/jwt.config';
 
 @Module({
   imports:[
     PassportModule,
     UsersModule,
     JwtModule.register({
-      secret: process.env.JWTKEY,
-      signOptions: { expiresIn: process.env.TOKEN_EXPIRATION },
+      secret: JwtConfig.JWTKEY,
+      signOptions: { expiresIn: JwtConfig.TOKEN_EXPIRATION },
   }),
   ],
   providers: [AuthService,LocalStrategy, JwtStrategy],

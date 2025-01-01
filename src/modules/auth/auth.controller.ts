@@ -2,6 +2,7 @@ import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserDto } from '../users/dto/user.dto';
 import { AuthService } from './auth.service';
+import { DoesUserExist } from 'src/core/doesUserExist.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -10,11 +11,20 @@ export class AuthController {
     @UseGuards(AuthGuard('local'))
     @Post('login')
     async login(@Req() req) {
-        return await this.authService.login(req.user);
+        try {    
+          return await this.authService.login(req.user);
+        } catch (error) {
+         console.error(error)
+        }
     }
-
-    @Post('signup')
+    @UseGuards(DoesUserExist)
+    @Post('register')
     async signUp(@Body() user: UserDto) {
-        return await this.authService.create(user);
+        try {
+            return await this.authService.create(user);   
+        } catch (error) {
+            console.error(error)
+        }
+        
     }
 }

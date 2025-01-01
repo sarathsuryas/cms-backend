@@ -1,14 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
+import { ValidateInputPipe } from './core/validate.pipe';
 const logger = require('morgan');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule,{
-    logger: ['log', 'fatal', 'error', 'warn', 'debug','verbose']
+    logger: ['log', 'fatal', 'error', 'warn', 'debug','verbose'],
+    cors:true
   });
   app.setGlobalPrefix('api/v1');
   app.use(logger('dev')); 
-
+  app.enableCors({
+    origin: 'http://localhost:4200', // Allow requests from Angular's development server
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // HTTP methods allowed
+    credentials: true, // Allow cookies to be sent
+  });
+  app.useGlobalPipes(new ValidateInputPipe());
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

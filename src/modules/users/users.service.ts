@@ -10,7 +10,6 @@ export class UsersService {
       try {
           return await this.userRepository.create<User>(user);
         } catch (error) {
-          console.log('//////////////////')
         console.error(error)
       }
     }

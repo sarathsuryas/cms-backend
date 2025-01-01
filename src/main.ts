@@ -11,7 +11,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   app.use(logger('dev')); 
   app.enableCors({
-    origin: 'https://cms-backend-mwoc.onrender.com', // Allow requests from Angular's development server
+    origin: 'https://cms-frontend-6y8szivtr-sarathsuryasss48-gmailcoms-projects.vercel.app', // Allow requests from Angular's development server
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // HTTP methods allowed
     credentials: true, // Allow cookies to be sent
   });

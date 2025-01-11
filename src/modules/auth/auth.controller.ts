@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, InternalServerErrorException, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserDto } from '../users/dto/user.dto';
 import { AuthService } from './auth.service';
@@ -15,6 +15,7 @@ export class AuthController {
           return await this.authService.login(req.user);
         } catch (error) {
          console.error(error)
+         throw new InternalServerErrorException()
         }
     }
     @UseGuards(DoesUserExist)
@@ -24,6 +25,8 @@ export class AuthController {
             return await this.authService.create(user);   
         } catch (error) {
             console.error(error)
+            throw new InternalServerErrorException()
+
         }
         
     }

@@ -26,14 +26,22 @@ export class ArticleService {
             console.error(error)
         }
     }
- async findAll() {
-    try {
-        const data = this.articleRepository.findAll( {attributes: { exclude: ['content'] }})
-        return data
-    } catch (error) {
-       console.error(error)
+    async findAll(page: number, limit: number) {
+        try {
+            const offset = (page - 1) * limit; 
+            const data = await this.articleRepository.findAll({
+                attributes: { exclude: ['content'] },
+                offset: offset,
+                limit: limit,
+            });
+    
+            return data
+        } catch (error) {
+            console.error(error);
+            throw new Error('Failed to fetch articles.');
+        }
     }
- }
+    
 
  async findOne(id:number): Promise<Article> {
     try {
@@ -59,11 +67,20 @@ async findByUserId (id:number) {
 
 async update(dto:IEditArticle) {
     try {
-       const data = await this.articleRepository.update(
-        { title: dto.data.title, content: dto.data.content,description:dto.data.description },
-      { where: { id: dto.articleId } }      
-     ) 
-     return data
+        if(dto.thumbNailLink) {
+            console.log(dto.thumbNailLink)
+          const data = await this.articleRepository.update(
+             { title: dto.data.title, content: dto.data.content,description:dto.data.description,thumbNailLink:dto.thumbNailLink },
+           { where: { id: dto.articleId } }      
+          ) 
+          return data
+        } else {
+            const data = await this.articleRepository.update(
+                { title: dto.data.title, content: dto.data.content,description:dto.data.description },
+              { where: { id: dto.articleId } }      
+             ) 
+             return data  
+        }
     } catch (error) {
        console.error(error)  
     }

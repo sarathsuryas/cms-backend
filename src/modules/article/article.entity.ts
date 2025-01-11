@@ -23,7 +23,7 @@ export class Article extends Model<Article> {
     
     @Column({
         type: DataType.TEXT,
-        allowNull: false,
+        allowNull:false,
     })
     thumbNailLink: string;
     

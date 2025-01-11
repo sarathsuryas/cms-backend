@@ -8,7 +8,6 @@ async function bootstrap() {
     logger: ['log', 'fatal', 'error', 'warn', 'debug','verbose'],
     cors:true
   });
-  app.setGlobalPrefix('api/v1');
   app.use(logger('dev')); 
   app.enableCors({
     origin: 'https://cms-frontend-ten-gules.vercel.app', // Allow requests from Angular's development server
